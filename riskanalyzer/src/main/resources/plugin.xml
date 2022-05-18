@@ -4,13 +4,13 @@
         name="Risk Analyzer"
         version="1.0"
         provider-name="ACME"
-        class="myplugin1.MyPlugin1">
+        class="com.acme.riskanalyzer.RiskAnalyzer">
 
     <requires>
         <api version="1.2"/>
     </requires>
 
     <runtime>
-        <library name="myplugin1.jar"/>
+        <library name="riskanalyzer.jar"/>
     </runtime>
 </plugin>

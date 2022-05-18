@@ -19,6 +19,28 @@
 	</properties>
 	<build>
 		<finalName>riskanalyzer</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+				  <finalName>com.acme.riskanalyzer</finalName>	
+				  <appendAssemblyId>false</appendAssemblyId>
+				  <descriptors>
+					<descriptor>src/main/assembly/assembly.xml</descriptor>
+				  </descriptors>
+			  	</configuration>
+				<executions>
+				  <execution>
+					<id>make-assembly</id>
+					<phase>package</phase>
+					<goals>
+					  <goal>single</goal> 
+					</goals>
+				  </execution>
+				</executions>
+			  </plugin>
+		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
