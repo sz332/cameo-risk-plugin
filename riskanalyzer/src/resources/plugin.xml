@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+        id="riskanalyzer"
+        name="Risk Analyzer"
+        version="1.0"
+        provider-name="ACME"
+        class="myplugin1.MyPlugin1">
+
+    <requires>
+        <api version="1.2"/>
+    </requires>
+
+    <runtime>
+        <library name="myplugin1.jar"/>
+    </runtime>
+</plugin>

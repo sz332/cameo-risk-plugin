@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.acme.magicdraw</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0.0</version>
+    <name>Magicdraw maven parent pom</name>
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <magicdraw.home>C:/home/Tools/Cameo</magicdraw.home>
+        <magicdraw.lib>${magicdraw.home}/lib</magicdraw.lib>
+    </properties>
+
+    <modules>
+        <module>riskanalyzer</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.nomagic.magicdraw</groupId>
+                <artifactId>md_api</artifactId>
+                <version>latest</version>
+                <scope>system</scope>
+                <systemPath>${magicdraw.lib}/md_api.jar</systemPath>
+            </dependency>
+            <dependency>
+                <groupId>com.nomagic.magicdraw</groupId>
+                <artifactId>md</artifactId>
+                <version>latest</version>
+                <scope>system</scope>
+                <systemPath>${magicdraw.lib}/md.jar</systemPath>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
