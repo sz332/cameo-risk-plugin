@@ -39,7 +39,8 @@ public class ShowRiskDialog{
             risks.add(new Risk("","Id-l-3-c-2", 3,2));
             risks.add(new Risk("","Id-l-4-c-1", 4,1));
 
-            RiskDialog dialog = new RiskDialog(null, risks);
+            RiskDialog dialog = new RiskDialog(null);
+            dialog.setRisks(risks);
             dialog.setVisible(true);
         });
                 

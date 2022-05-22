@@ -6,6 +6,7 @@ package com.acme.riskanalyzer.ui;
 
 import com.acme.riskanalyzer.domain.Risk;
 
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.util.List;
 
@@ -14,16 +15,20 @@ import java.util.List;
  * @author Zsolt
  */
 public class RiskPanel extends AbstractRiskPanel {
-    
-    public RiskPanel(List<Risk> risks){
+
+    private final RiskCanvas canvas;
+
+    public RiskPanel(){
         super();
-        initComponents(risks);
-    }
-    
-    private void initComponents(List<Risk> risks){
-        var canvas = new RiskCanvas();
-        canvas.setRisks(risks);
+        this.canvas = new RiskCanvas();
         middlePanel.add(canvas, BorderLayout.CENTER);
     }
-    
+
+    public void setRisks(List<Risk> risks) {
+        canvas.setRisks(risks);
+    }
+
+    public JButton getCloseButton(){
+        return this.closeButton;
+    }
 }

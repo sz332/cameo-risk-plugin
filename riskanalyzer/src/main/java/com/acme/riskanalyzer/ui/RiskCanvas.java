@@ -47,8 +47,8 @@ public class RiskCanvas extends JPanel {
         var width = getWidth();
         var height = getHeight();
 
-        g.setColor(Color.red);
-        g.drawRect(0, 0, width - 1, height - 1);
+        g.setColor(getBackground());
+        g.fillRect(0,0, width, height);
 
         int cellSize = Math.min(getWidth() / 5, getHeight() / 5);
 
