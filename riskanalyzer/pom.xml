@@ -75,5 +75,17 @@
 			<groupId>com.nomagic.magicdraw</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.nomagic.magicdraw</groupId>
+			<artifactId>emf-ecore</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.nomagic.magicdraw</groupId>
+			<artifactId>emf-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.nomagic.magicdraw</groupId>
+			<artifactId>jmi</artifactId>
+		</dependency>
 	</dependencies>
 </project>
