@@ -33,6 +33,34 @@
                 <scope>system</scope>
                 <systemPath>${magicdraw.lib}/md.jar</systemPath>
             </dependency>
+            <dependency>
+                <groupId>com.nomagic.magicdraw</groupId>
+                <artifactId>uml2</artifactId>
+                <version>latest</version>
+                <scope>system</scope>
+                <systemPath>${magicdraw.lib}/com.nomagic.magicdraw.uml2-2021.2.0-SNAPSHOT.jar</systemPath>
+            </dependency>
+            <dependency>
+                <groupId>com.nomagic.magicdraw</groupId>
+                <artifactId>foundation</artifactId>
+                <version>latest</version>
+                <scope>system</scope>
+                <systemPath>${magicdraw.lib}/com.nomagic.magicdraw.foundation-2021.2.0-SNAPSHOT.jar</systemPath>
+            </dependency>
+            <dependency>
+                <groupId>com.nomagic.magicdraw</groupId>
+                <artifactId>modeling</artifactId>
+                <version>latest</version>
+                <scope>system</scope>
+                <systemPath>${magicdraw.lib}/com.nomagic.magicdraw.modeling-2021.2.0-SNAPSHOT.jar</systemPath>
+            </dependency>
+            <dependency>
+                <groupId>com.nomagic.magicdraw</groupId>
+                <artifactId>common</artifactId>
+                <version>latest</version>
+                <scope>system</scope>
+                <systemPath>${magicdraw.lib}/common-2021.2.0-SNAPSHOT.jar</systemPath>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

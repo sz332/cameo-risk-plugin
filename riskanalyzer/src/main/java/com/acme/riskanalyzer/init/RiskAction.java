@@ -1,13 +1,11 @@
 package com.acme.riskanalyzer.init;
 
-import com.nomagic.magicdraw.ui.browser.Node;
 import com.nomagic.magicdraw.ui.browser.Tree;
 import com.nomagic.magicdraw.ui.browser.actions.DefaultBrowserAction;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 import com.nomagic.magicdraw.uml.BaseElement;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
+import javax.swing.*;
 
 public class RiskAction extends DefaultBrowserAction {
 
@@ -15,7 +13,7 @@ public class RiskAction extends DefaultBrowserAction {
     private static final String ACTION_NAME = "Risk Analyzer";
 
     public RiskAction() {
-        super(ACTION_ID,ACTION_NAME, null, null);
+        super(ACTION_ID, ACTION_NAME, null, null);
     }
 
     @Override
@@ -26,14 +24,14 @@ public class RiskAction extends DefaultBrowserAction {
 
         sb.append("Selected elements: \n");
 
-        for (int i = 0; i < tree.getSelectedNodes().length; i++)
-        {
-            Node node = tree.getSelectedNodes()[i];
-            Object userObject = node.getUserObject();
-            if (userObject instanceof BaseElement)
-            {
-                BaseElement element = (BaseElement) userObject;
-                sb.append("\n"+element.getHumanName());
+        if (tree != null) {
+            for (var node : tree.getSelectedNodes()) {
+                Object userObject = node.getUserObject();
+                if (userObject instanceof BaseElement) {
+                    BaseElement element = (BaseElement) userObject;
+                    sb.append("\n");
+                    sb.append(element.getHumanName());
+                }
             }
         }
 
