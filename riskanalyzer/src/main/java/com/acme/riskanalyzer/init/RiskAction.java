@@ -44,44 +44,47 @@ public class RiskAction extends DefaultBrowserAction {
 
         var risks = new ArrayList<Risk>();
 
-        System.err.println("project = " + project);
-        System.err.println("profile = " + profile);
-        System.err.println("stereotype = " + stereotype);
-
-        if (project != null && profile != null && stereotype != null){
+        if (project != null && profile != null && stereotype != null) {
             var myPackage = project.getElementByID("_2021x_2_62c021d_1653239356108_45350_2833");
 
-            if (myPackage instanceof Package){
+            if (myPackage instanceof Package) {
                 Package pkg = (Package) myPackage;
 
                 System.err.println("Found package");
 
-                for (var element : pkg.getOwnedElement()){
-                    if (StereotypesHelper.hasStereotype(element, stereotype)){
-                        var name = TagsHelper.getStereotypePropertyFirst(element, stereotype, "riskName");
-                        var id = TagsHelper.getStereotypePropertyFirst(element, stereotype, "riskID");
-                        var likelihood = TagsHelper.getStereotypePropertyFirst(element, stereotype, "likelihood");
-                        var maxConsequence = element.refGetValue("maxConsequence");
+                for (var element : pkg.getOwnedElement()) {
+                    if (StereotypesHelper.hasStereotype(element, stereotype)) {
+                        var name = TagsHelper.getStereotypePropertyFirst(element, stereotype, "riskName").toString();
+                        var id = TagsHelper.getStereotypePropertyFirst(element, stereotype, "riskID").toString();
+                        var likelihood = asNumber(TagsHelper.getStereotypePropertyFirst(element, stereotype, "likelihood"));
+                        var maxConsequence = asNumber(element.refGetValue("maxConsequence"));
 
-                        System.err.println("human name = " + element.getHumanName());
-                        System.err.println("name =" + name);
-                        System.err.println("id =" + id);
-                        System.err.println("likelihood = " + likelihood);
-                        System.err.println("maxConsequence = " + maxConsequence);
+                        var risk = new Risk(element.getID(), id, name, likelihood, maxConsequence);
+                        risks.add(risk);
                     }
                 }
             }
 
         } else {
-            risks.add(new Risk("", "Id-l-5-c-1", 5, 1));
-            risks.add(new Risk("", "Id-l-5-c-5", 5, 5));
-            risks.add(new Risk("", "Id-l-1-c-1", 1, 1));
-            risks.add(new Risk("", "Id-l-1-c-5", 1, 5));
-            risks.add(new Risk("", "Id-l-3-c-2", 3, 2));
-            risks.add(new Risk("", "Id-l-4-c-1", 4, 1));
+            System.err.println("No project, profile, or stereotype found");
+            System.err.println("project = " + project);
+            System.err.println("profile = " + profile);
+            System.err.println("stereotype = " + stereotype);
         }
 
         return risks;
+    }
+
+    private int asNumber(Object o) {
+        if (o != null) {
+            try {
+                return Integer.parseInt(o.toString());
+            } catch (NumberFormatException e) {
+                return -1;
+            }
+        }
+
+        return -1;
     }
 
 }

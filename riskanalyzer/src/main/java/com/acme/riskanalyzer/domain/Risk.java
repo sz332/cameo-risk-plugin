@@ -14,10 +14,13 @@ public class Risk {
     private final String modelId;
     private final int likelihood;
     private final int maxConsequence;
+
+    private final String name;
     
-    public Risk(String modelId, String id, int likelihood, int maxConsequence){
+    public Risk(String modelId, String id, String name, int likelihood, int maxConsequence){
         this.modelId = modelId;
         this.id = id;
+        this.name = name;
         this.likelihood = likelihood;
         this.maxConsequence = maxConsequence;
     }
@@ -36,5 +39,9 @@ public class Risk {
 
     public int getMaxConsequence() {
         return maxConsequence;
-    }    
+    }
+
+    public String getName() {
+        return name;
+    }
 }
