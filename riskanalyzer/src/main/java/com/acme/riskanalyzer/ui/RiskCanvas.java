@@ -130,5 +130,4 @@ public class RiskCanvas extends JPanel {
         }
     }
 
-
 }

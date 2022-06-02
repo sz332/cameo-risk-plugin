@@ -3,17 +3,19 @@ package com.acme.riskanalyzer.init;
 import com.acme.riskanalyzer.domain.Risk;
 import com.acme.riskanalyzer.ui.RiskDialog;
 import com.nomagic.magicdraw.core.Application;
-import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.ui.browser.Tree;
 import com.nomagic.magicdraw.ui.browser.actions.DefaultBrowserAction;
 import com.nomagic.magicdraw.ui.dialogs.MDDialogParentProvider;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.jmi.helpers.TagsHelper;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class RiskAction extends DefaultBrowserAction {
 
@@ -29,50 +31,45 @@ public class RiskAction extends DefaultBrowserAction {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        var project = Application.getInstance().getProject();
+        var selectedPackage = findSelectedPackage(getTree());
 
-        var rootPackage = findSelectedPackage(project, getTree());
-        var risks = findRisks(project, rootPackage);
+        selectedPackage.ifPresent(rootPackage -> {
+            var risks = findRisks(rootPackage);
 
-        dialog.setRisks(risks);
-        dialog.setVisible(true);
+            dialog.setRisks(risks);
+            dialog.setVisible(true);
+        });
     }
 
-    private Package findSelectedPackage(Project project, Tree tree) {
-        var myPackage = project.getElementByID("_2021x_2_62c021d_1653239356108_45350_2833");
+    private Optional<Package> findSelectedPackage(Tree tree) {
 
-        if (myPackage instanceof Package) {
-            Package pkg = (Package) myPackage;
-            return pkg;
+        var selectedNode = tree.getSelectedNode();
+
+        if (selectedNode instanceof Package) {
+            return Optional.of((Package) selectedNode);
         }
 
-        return null;
+        return Optional.empty();
     }
 
-    private List<Risk> findRisks(Project project, Package rootPackage) {
-
+    private List<Risk> findRisks(Package rootPackage) {
+        var project = Application.getInstance().getProject();
         var profile = StereotypesHelper.getProfile(project, "Safety");
         var stereotype = StereotypesHelper.getStereotype(project, "Risk", profile);
 
-        var risks = new ArrayList<Risk>();
+        return rootPackage.getOwnedElement().stream()
+                .filter(element -> StereotypesHelper.hasStereotype(element, stereotype))
+                .map(element -> createRisk(element, stereotype))
+                .collect(Collectors.toList());
+    }
 
-        if (project != null && profile != null && stereotype != null) {
+    private Risk createRisk(Element element, Stereotype stereotype) {
+        var name = TagsHelper.getStereotypePropertyFirst(element, stereotype, "riskName").toString();
+        var id = TagsHelper.getStereotypePropertyFirst(element, stereotype, "riskID").toString();
+        var likelihood = asNumber(TagsHelper.getStereotypePropertyFirst(element, stereotype, "likelihood"));
+        var maxConsequence = asNumber(element.refGetValue("maxConsequence"));
 
-            for (var element : rootPackage.getOwnedElement()) {
-                if (StereotypesHelper.hasStereotype(element, stereotype)) {
-                    var name = TagsHelper.getStereotypePropertyFirst(element, stereotype, "riskName").toString();
-                    var id = TagsHelper.getStereotypePropertyFirst(element, stereotype, "riskID").toString();
-                    var likelihood = asNumber(TagsHelper.getStereotypePropertyFirst(element, stereotype, "likelihood"));
-                    var maxConsequence = asNumber(element.refGetValue("maxConsequence"));
-
-                    var risk = new Risk(element.getID(), id, name, likelihood, maxConsequence);
-                    risks.add(risk);
-                }
-            }
-
-        }
-
-        return risks;
+        return new Risk(element.getID(), id, name, likelihood, maxConsequence);
     }
 
     private int asNumber(Object o) {
