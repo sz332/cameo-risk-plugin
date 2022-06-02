@@ -2,19 +2,18 @@ package com.acme.riskanalyzer.ui;
 
 import com.acme.riskanalyzer.domain.Risk;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 /**
  * @author Zsolt
  */
 public class RiskCanvas extends JPanel {
 
-    private final static int COLUMNS = 5;
-    private final static int ROWS = 5;
+    private static final int COLUMNS = 5;
+    private static final int ROWS = 5;
 
     private enum Severity {
         OK, WARNING, ERROR
@@ -28,11 +27,10 @@ public class RiskCanvas extends JPanel {
             {Severity.OK, Severity.OK, Severity.OK, Severity.OK, Severity.WARNING}
     };
 
-    private final List<Risk> risks;
+    private final List<Risk> risks = new ArrayList<>();
 
     public RiskCanvas() {
         super();
-        this.risks = new ArrayList<>();
     }
 
     public void setRisks(List<Risk> risks) {
@@ -48,9 +46,9 @@ public class RiskCanvas extends JPanel {
         var height = getHeight();
 
         g.setColor(getBackground());
-        g.fillRect(0,0, width, height);
+        g.fillRect(0, 0, width, height);
 
-        int cellSize = Math.min(getWidth() / 5, getHeight() / 5);
+        var cellSize = Math.min(width / COLUMNS, height / ROWS);
 
         var left = (width - cellSize * COLUMNS) / 2;
         var top = (height - cellSize * ROWS) / 2;
@@ -64,8 +62,8 @@ public class RiskCanvas extends JPanel {
 
     private void paintRiskCells(Graphics g, int cellSize) {
 
-        for (int row = 0; row < ROWS; row++) {
-            for (int column = 0; column < COLUMNS; column++) {
+        for (var row = 0; row < ROWS; row++) {
+            for (var column = 0; column < COLUMNS; column++) {
                 paintRiskCell(g, row, column, cellSize, severities[row][column]);
             }
         }
@@ -73,8 +71,8 @@ public class RiskCanvas extends JPanel {
     }
 
     private void paintRiskCell(Graphics g, int row, int column, int cellSize, Severity severity) {
-        Color color = calculateSeverityColor(severity);
-        Point point = calculateCoordinate(row, column, cellSize);
+        var color = calculateSeverityColor(severity);
+        var point = calculateCoordinate(row, column, cellSize);
 
         g.setColor(color);
         g.fillRect(point.x, point.y, cellSize, cellSize);
@@ -83,43 +81,38 @@ public class RiskCanvas extends JPanel {
         g.drawRect(point.x, point.y, cellSize, cellSize);
 
         g.translate(point.x + 5, point.y + 5);
-        paintRisksInCell(g, row, column, cellSize);
+        paintRisksInCell(g, row, column);
         g.translate(-(point.x + 5), -(point.y + 5));
     }
 
-    private void paintRisksInCell(Graphics g, int row, int column, int cellSize) {
+    private void paintRisksInCell(Graphics g, int row, int column) {
 
-        FontMetrics metrics = g.getFontMetrics(g.getFont());
+        var metrics = g.getFontMetrics(g.getFont());
         g.translate(0, metrics.getAscent());
 
         var textHeight = metrics.getHeight();
         var y = 0;
 
-        for (var risk : risks){
-            if (riskAppliesToCell(risk, row, column)){
+        for (var risk : risks) {
+            if (riskAppliesToCell(risk, row, column)) {
                 g.drawString("Risk ID:", 0, y);
                 y += textHeight;
 
                 g.drawString(risk.getId(), 0, y);
-                y+= textHeight;
+                y += textHeight;
             }
         }
 
-        g.translate(0,-metrics.getAscent());
+        g.translate(0, -metrics.getAscent());
     }
 
-    boolean riskAppliesToCell(Risk risk, int row, int column){
-
-        if ((risk.getLikelihood() == 5 - row) && (risk.getMaxConsequence() == column + 1)){
-            return true;
-        }
-
-        return false;
+    boolean riskAppliesToCell(Risk risk, int row, int column) {
+        return ((risk.getLikelihood() == ROWS - row) && (risk.getMaxConsequence() == column + 1));
     }
 
     private Point calculateCoordinate(int row, int column, int cellSize) {
-        int x = cellSize * column;
-        int y = cellSize * row;
+        var x = cellSize * column;
+        var y = cellSize * row;
 
         return new Point(x, y);
     }
@@ -130,8 +123,10 @@ public class RiskCanvas extends JPanel {
                 return Color.yellow;
             case ERROR:
                 return Color.red;
-            default:
+            case OK:
                 return Color.green;
+            default:
+                return Color.magenta;
         }
     }
 

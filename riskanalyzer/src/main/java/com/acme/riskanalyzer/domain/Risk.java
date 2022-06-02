@@ -5,19 +5,18 @@
 package com.acme.riskanalyzer.domain;
 
 /**
- *
  * @author Zsolt
  */
 public class Risk {
-    
+
     private final String id;
     private final String modelId;
     private final int likelihood;
     private final int maxConsequence;
 
     private final String name;
-    
-    public Risk(String modelId, String id, String name, int likelihood, int maxConsequence){
+
+    public Risk(String modelId, String id, String name, int likelihood, int maxConsequence) {
         this.modelId = modelId;
         this.id = id;
         this.name = name;

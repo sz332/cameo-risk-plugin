@@ -2,11 +2,9 @@ package com.acme.riskanalyzer.ui;
 
 import com.acme.riskanalyzer.domain.Risk;
 
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
 import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
 /**
  * @author Zsolt
@@ -21,9 +19,7 @@ public class RiskDialog extends JDialog {
         this.panel = new RiskPanel();
 
         // This is a very ugly hack. Don't do that in production, please.
-        this.panel.getCloseButton().addActionListener(e -> {
-            this.setVisible(false);
-        });
+        this.panel.getCloseButton().addActionListener(e -> this.setVisible(false));
 
         this.setContentPane(panel);
         this.pack();
