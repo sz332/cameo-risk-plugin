@@ -45,8 +45,8 @@ public class RiskAction extends DefaultBrowserAction {
 
         var selectedNode = tree.getSelectedNode();
 
-        if (selectedNode instanceof Package) {
-            return Optional.of((Package) selectedNode);
+        if (selectedNode != null && selectedNode.getUserObject() instanceof Package) {
+            return Optional.of((Package) selectedNode.getUserObject());
         }
 
         return Optional.empty();
